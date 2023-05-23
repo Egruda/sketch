@@ -15,9 +15,12 @@ for(let i=0; i < 16; i++) {
         temp.appendChild(divChild[j]);
     }
     const divColumn = document.querySelectorAll('.column');
-    divColumn.forEach(column => column.addEventListener('mouseenter', (e) => e.target.style.backgroundColor = 'black'));
+    divColumn.forEach(column => column.addEventListener('mouseenter', black));
 }
 
+function black(e) {
+    e.target.style.backgroundColor = 'black';
+}
 
 
 const changeGridButton = document.querySelector('#changeGrid');
@@ -51,9 +54,31 @@ function changeGrid() {
         }
     }
     const divnColumn = document.querySelectorAll('.ncolumn');
-    divnColumn.forEach(ncolumn => ncolumn.addEventListener('mouseenter', (e) => e.target.style.backgroundColor = 'black'));
+    divnColumn.forEach(ncolumn => ncolumn.addEventListener('mouseenter', black));
 
 }
 
+const rainbowButton = document.querySelector('#rainbow');
+rainbowButton.addEventListener('click', rainbow);
 
+function rainbow () {
+    const divColumn = document.querySelectorAll('.column');
+    const divnColumn = document.querySelectorAll('.ncolumn');
+    divColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divColumn.forEach(column => column.addEventListener('mouseenter', rainbowColor));
+    divnColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divnColumn.forEach(column => column.addEventListener('mouseenter', rainbowColor));
+}
 
+function rainbowColor (e) {
+    e.target.style.backgroundColor = getRandomColor();    
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
