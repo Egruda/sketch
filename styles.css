@@ -1,0 +1,30 @@
+.row {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    gap:0px;
+
+}
+
+.container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height:100%;
+    
+   
+}
+
+.column {
+    width:50px;
+    height:50px;
+}
+
+html,
+body {
+    padding: 10px;
+    
+    
+}
