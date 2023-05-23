@@ -18,13 +18,38 @@ for(let i=0; i < 16; i++) {
     divColumn.forEach(column => column.addEventListener('mouseenter', black));
 }
 
+const changeGridButton = document.querySelector('#changeGrid');
+changeGridButton.addEventListener('click', changeGrid);
+
+const rainbowButton = document.querySelector('#rainbow');
+rainbowButton.addEventListener('click', rainbow);
+
+const darkerButton = document.querySelector('#darker');
+darkerButton.addEventListener('click', dark);
+
 function black(e) {
     e.target.style.backgroundColor = 'black';
 }
 
+function dark(e) {
+    const divColumn = document.querySelectorAll('.column');
+    const divnColumn = document.querySelectorAll('.ncolumn');
+    divColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divColumn.forEach(column => column.removeEventListener('mouseenter', rainbowColor));
+    divColumn.forEach(column => column.addEventListener('mouseenter', darker));
+    divnColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divnColumn.forEach(column => column.removeEventListener('mouseenter', rainbowColor));
+    divnColumn.forEach(column => column.addEventListener('mouseenter', darker));
+}
 
-const changeGridButton = document.querySelector('#changeGrid');
-changeGridButton.addEventListener('click', changeGrid);
+function darker(e) {
+    let style=window.getComputedStyle(e.target,"");
+    let bgColor=style.getPropertyValue("background-color")
+    firstIndex = bgColor.indexOf('(')+1;
+    lastIndex = bgColor.indexOf(',');
+    bgColor = bgColor.slice(firstIndex,lastIndex);
+    e.target.style.backgroundColor = darkShade(bgColor);
+}
 
 function changeGrid() {
     
@@ -55,18 +80,16 @@ function changeGrid() {
     }
     const divnColumn = document.querySelectorAll('.ncolumn');
     divnColumn.forEach(ncolumn => ncolumn.addEventListener('mouseenter', black));
-
 }
-
-const rainbowButton = document.querySelector('#rainbow');
-rainbowButton.addEventListener('click', rainbow);
 
 function rainbow () {
     const divColumn = document.querySelectorAll('.column');
     const divnColumn = document.querySelectorAll('.ncolumn');
     divColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divColumn.forEach(column => column.removeEventListener('mouseenter', dark));
     divColumn.forEach(column => column.addEventListener('mouseenter', rainbowColor));
     divnColumn.forEach(column => column.removeEventListener('mouseenter', black));
+    divnColumn.forEach(column => column.removeEventListener('mouseenter', dark));
     divnColumn.forEach(column => column.addEventListener('mouseenter', rainbowColor));
 }
 
@@ -82,3 +105,11 @@ function getRandomColor() {
     }
     return color;
   }
+
+function darkShade(bgColor) {
+    let maxRGB = 255;
+    let xRGB = Number(bgColor);
+    xRGB = Math.floor(xRGB-(maxRGB*0.1));
+    const rgb = `rgb(${xRGB},${xRGB},${xRGB})`;
+    return rgb;
+}
